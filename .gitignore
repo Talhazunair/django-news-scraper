@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Django-specific
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+*.pot
+*.pyc
+
+# VSCode settings
+.vscode/
+
+# Django migrations (optional: keep if you want to version control them)
+*/migrations/*.py
+*/migrations/__pycache__/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# dotenv / secret files
+.env
+*.env
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Coverage / Testing
+.coverage
+htmlcov/
+.tox/
+.noseids
+
+# Celery beat schedule (if used)
+celerybeat-schedule
+
+# Pytest
+.pytest_cache/

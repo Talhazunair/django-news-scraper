@@ -1,0 +1,302 @@
+{% extends 'base.html' %} {% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <div class="animate-fadeIn">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-8 md:mb-0">
+            <h1 class="text-4xl font-extrabold tracking-tight animate-title">
+              Dashboard <span class="text-blue-200">Overview</span>
+            </h1>
+            <p class="mt-2 text-blue-100 text-lg">
+              URL Scraper Management System
+            </p>
+          </div>
+          <a
+            href="{% url 'download_csv' %}"
+            class="bg-white text-indigo-700 hover:bg-blue-50 font-medium py-2 px-4 rounded-lg shadow flex items-center transition duration-300"
+          >
+            <i class="fas fa-file-csv mr-2"></i>
+            Download CSV
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-cards"
+      >
+        <!-- Total URLs Card -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-500">
+                  Total URL Scrape
+                </p>
+                <p class="text-3xl font-extrabold text-gray-900">{{ total }}</p>
+              </div>
+              <div
+                class="h-14 w-14 bg-blue-100 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-link text-blue-600 text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center">
+              <span
+                class="text-green-500 flex items-center text-sm font-medium"
+              >
+                <i class="fas fa-arrow-up mr-1"></i> 12%
+              </span>
+              <span class="text-gray-500 text-sm ml-2">from last month</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Last Run Card -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-500">Last Run</p>
+                <p class="text-xl font-bold text-gray-900">
+                  {{ last_run.scraped_at|date:"D d M Y H:i" }}
+                </p>
+              </div>
+              <div
+                class="h-14 w-14 bg-purple-100 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-calendar-check text-purple-600 text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center">
+              <span class="text-gray-500 flex items-center text-sm font-medium">
+                <i class="fas fa-clock mr-1"></i> Last updated
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completion Card -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-500">Success Rate</p>
+                <p class="text-3xl font-extrabold text-gray-900">98%</p>
+              </div>
+              <div
+                class="h-14 w-14 bg-green-100 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-chart-pie text-green-600 text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  class="bg-green-600 h-2.5 rounded-full"
+                  style="width: 98%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scraped Records -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden animate-list">
+        <div
+          class="border-b border-gray-200 bg-gray-50 px-6 py-4 flex items-center justify-between"
+        >
+          <h2 class="text-xl font-bold text-gray-800">
+            <i class="fas fa-list-ul mr-2 text-indigo-600"></i> Scraped Records
+          </h2>
+          <div class="flex items-center">
+            <div class="relative text-gray-400 focus-within:text-gray-600">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                <i class="fas fa-search"></i>
+              </span>
+              <input
+                type="search"
+                class="py-2 pl-8 pr-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Search records..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="divide-y divide-gray-200">
+          {% for job in jobs %}
+          <div class="p-6 hover:bg-blue-50 transition duration-300 job-item">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div
+                  class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center"
+                >
+                  <i class="fas fa-file-alt text-indigo-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    {{ job.title }}
+                  </h3>
+                  <a
+                    href="{{ job.url }}"
+                    class="text-indigo-600 hover:text-indigo-900 text-sm flex items-center"
+                  >
+                    <i class="fas fa-external-link-alt mr-1"></i> {{ job.url }}
+                  </a>
+                </div>
+              </div>
+              <div class="flex space-x-2">
+                <button
+                  class="p-2 text-gray-400 hover:text-indigo-600 transition-colors duration-300"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="p-2 text-gray-400 hover:text-red-600 transition-colors duration-300"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="p-12 text-center">
+            <div class="inline-flex rounded-full bg-yellow-100 p-6 mb-4">
+              <i
+                class="fas fa-exclamation-triangle text-yellow-600 text-3xl"
+              ></i>
+            </div>
+            <h3 class="mt-2 text-lg font-medium text-gray-900">
+              No Jobs Found
+            </h3>
+            <p class="mt-1 text-gray-500">
+              It looks like there are no scraped jobs in the system yet.
+            </p>
+            <div class="mt-6">
+              <button
+                class="bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white px-4 py-2 rounded-md flex items-center mx-auto"
+              >
+                <i class="fas fa-plus mr-2"></i> Start a New Scrape
+              </button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="bg-gray-50 px-6 py-4 flex items-center justify-between">
+          <div class="text-gray-600">
+            Showing <span class="font-medium">{{ jobs|length }}</span> records
+          </div>
+          <div class="flex space-x-1 mt-4 justify-center">
+            {% if jobs.has_previous %}
+              <a href="?page={{ jobs.previous_page_number }}"
+                 class="px-3 py-1 rounded bg-white border hover:bg-gray-50 transition duration-300 text-gray-600">
+                <i class="fas fa-chevron-left"></i> Previous
+              </a>
+            {% else %}
+              <span class="px-3 py-1 rounded bg-gray-200 text-gray-400 cursor-not-allowed">
+                <i class="fas fa-chevron-left"></i> Previous
+              </span>
+            {% endif %}
+          
+            {% for num in jobs.paginator.page_range %}
+              {% if jobs.number == num %}
+                <span class="px-3 py-1 rounded bg-indigo-600 text-white">
+                  {{ num }}
+                </span>
+              {% elif num > jobs.number|add:'-3' and num < jobs.number|add:'3' %}
+                <a href="?page={{ num }}"
+                   class="px-3 py-1 rounded bg-white border hover:bg-gray-50 transition duration-300 text-gray-600">
+                  {{ num }}
+                </a>
+              {% endif %}
+            {% endfor %}
+          
+            {% if jobs.has_next %}
+              <a href="?page={{ jobs.next_page_number }}"
+                 class="px-3 py-1 rounded bg-white border hover:bg-gray-50 transition duration-300 text-gray-600">
+                Next <i class="fas fa-chevron-right"></i>
+              </a>
+            {% else %}
+              <span class="px-3 py-1 rounded bg-gray-200 text-gray-400 cursor-not-allowed">
+                Next <i class="fas fa-chevron-right"></i>
+              </span>
+            {% endif %}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Fade in animation for the entire dashboard
+      anime({
+        targets: ".animate-fadeIn",
+        opacity: [0, 1],
+        duration: 1000,
+        easing: "easeInOutQuad",
+      });
+
+      // Title animation
+      anime({
+        targets: ".animate-title",
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: 300,
+        easing: "easeOutQuad",
+      });
+
+      // Stats cards animation
+      anime({
+        targets: ".animate-cards > div",
+        translateY: [30, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(150, { start: 500 }),
+        duration: 800,
+        easing: "easeOutQuad",
+      });
+
+      // List animation
+      anime({
+        targets: ".animate-list",
+        translateY: [40, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: 1000,
+        easing: "easeOutQuad",
+      });
+
+      // Job items animation
+      anime({
+        targets: ".job-item",
+        translateX: [-20, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(100, { start: 1300 }),
+        duration: 600,
+        easing: "easeOutQuad",
+      });
+
+      // Simulated hover effect for demo purposes
+      const pulseAnimation = anime({
+        targets: ".bg-blue-600, .bg-indigo-700",
+        backgroundPosition: ["0% 0%", "100% 0%"],
+        direction: "alternate",
+        loop: true,
+        duration: 3000,
+        easing: "easeInOutSine",
+        autoplay: true,
+      });
+    });
+  </script>
+</div>
+{% endblock %}

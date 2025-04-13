@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+<div
+  class="bg-gradient-to-br from-indigo-100 to-purple-200 min-h-screen p-4 md:p-8"
+>
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 md:p-8">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+          </div>
+          <div class="text-white text-sm font-medium opacity-75">
+            content-viewer.html
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 md:p-10">
+        {% if content %}
+        <h1
+          class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 border-b-2 border-purple-200 pb-4"
+        >
+          {{content.0}}
+        </h1>
+        <div class="space-y-6">
+          {% for paragraph in content|slice:"1:" %}
+          <p class="text-gray-600 leading-relaxed">{{ paragraph }}</p>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div
+          class="flex flex-col items-center justify-center py-12 text-center"
+        >
+          <div
+            class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-file-alt text-gray-400 text-4xl"></i>
+          </div>
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">
+            No Content Found
+          </h1>
+          <p class="text-gray-500">Please ensure content is properly loaded</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
+        <div class="flex items-center justify-between">
+          <div class="flex space-x-2">
+            <button
+              class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition duration-200"
+            >
+              <i class="fas fa-share mr-1"></i> Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center text-gray-500 text-sm">
+      <p>© 2025 Content Viewer • All rights reserved</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
